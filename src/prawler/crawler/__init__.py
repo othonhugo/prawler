@@ -13,10 +13,16 @@ from .post import (
     UrlCrawlConfig,
     UserCrawlConfig,
 )
+from .redditor import (
+    RedditorCrawler,
+    RedditorProfileConfig,
+)
 
 __all__ = [
     "CommentCrawler",
     "PostCrawler",
+    "RedditorCrawler",
+    "RedditorProfileConfig",
     "SearchCrawlConfig",
     "SearchSort",
     "SubmissionCommentConfig",
