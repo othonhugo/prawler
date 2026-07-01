@@ -4,6 +4,8 @@ import sys
 from pathlib import Path
 from typing import Iterator
 
+from prawler.output.base import Sink
+
 
 class StdoutSink:
     def write(self, chunks: Iterator[str]) -> None:
@@ -22,7 +24,7 @@ class FileSink:
 
 
 class MultiSink:
-    def __init__(self, sinks: list) -> None:
+    def __init__(self, sinks: list[Sink]) -> None:
         self._sinks = sinks
 
     def write(self, chunks: Iterator[str]) -> None:
@@ -32,7 +34,7 @@ class MultiSink:
             sink.write(iter(collected))
 
 
-def make_sink(output: str):
+def make_sink(output: str) -> StdoutSink | FileSink:
     if output == "-":
         return StdoutSink()
 

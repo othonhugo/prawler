@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Iterator
+from typing import Iterable, Iterator
 
 import praw.models
 
@@ -33,7 +33,9 @@ class CommentCrawler:
 
         submission.comments.replace_more(limit=cfg.limit)
 
-        yield from self._map(submission.comments.list())
+        yield from self._map(
+            item for item in submission.comments.list() if isinstance(item, praw.models.Comment)
+        )
 
     def from_user(self, cfg: UserCommentConfig) -> Iterator[Comment]:
         redditor = self._client.redditor(cfg.username)
@@ -52,7 +54,7 @@ class CommentCrawler:
             item for item in comments if isinstance(item, praw.models.Comment)
         )
 
-    def _map(self, comments) -> Iterator[Comment]:
+    def _map(self, comments: Iterable[praw.models.Comment]) -> Iterator[Comment]:
         for comment in comments:
             try:
                 yield Comment.from_praw(comment)

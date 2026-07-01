@@ -25,16 +25,16 @@ def user(
 
     match mode:
         case UserMode.POSTS:
-            stream = PostCrawler(client).from_user(UserCrawlConfig(username, SubredditSort(sort), limit))
-            records = (item.to_dict() for item in stream)
+            post_stream = PostCrawler(client).from_user(UserCrawlConfig(username, SubredditSort(sort), limit))
+            records = (item.to_dict() for item in post_stream)
 
         case UserMode.COMMENTS:
-            stream = CommentCrawler(client).from_user(UserCommentConfig(username, sort, limit))
-            records = (item.to_dict() for item in stream)
+            comment_stream = CommentCrawler(client).from_user(UserCommentConfig(username, sort, limit))
+            records = (item.to_dict() for item in comment_stream)
 
         case UserMode.PROFILE:
-            stream = RedditorCrawler(client).from_usernames(RedditorProfileConfig([username]))
-            records = (item.to_dict() for item in stream)
+            redditor_stream = RedditorCrawler(client).from_usernames(RedditorProfileConfig([username]))
+            records = (item.to_dict() for item in redditor_stream)
 
     pipeline = build_pipeline(
         *[make_filter_stage(f) for f in (filter or [])],

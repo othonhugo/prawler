@@ -34,7 +34,7 @@ class Comment:
     nsfw: bool
     edited: bool
 
-    def to_dict(self, fields: list[str] | None = None) -> dict:
+    def to_dict(self, fields: list[str] | None = None) -> dict[str, object]:
         data = asdict(self)
         data["created_utc"] = self.created_utc.isoformat()
 

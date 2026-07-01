@@ -1,8 +1,9 @@
 from __future__ import annotations
 
+from prawler.output.base import Formatter
 from .formatters import CsvFormatter, JsonFormatter, JsonLFormatter, MarkdownFormatter, TableFormatter
 
-FORMATTERS: dict[str, type] = {
+FORMATTERS: dict[str, type[Formatter]] = {
     "json": JsonFormatter,
     "jsonl": JsonLFormatter,
     "csv": CsvFormatter,
@@ -11,7 +12,7 @@ FORMATTERS: dict[str, type] = {
 }
 
 
-def get_formatter(name: str):
+def get_formatter(name: str) -> Formatter:
     cls = FORMATTERS.get(name)
 
     if cls is None:

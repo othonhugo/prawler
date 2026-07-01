@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import re
-from collections.abc import Iterator
+from collections.abc import Callable, Iterator
 
-from prawler.pipeline.stage import PipelineStage
+from prawler.pipeline.stage import PipelineStage, Record
 
 OPERATORS = ["~=", "!=", ">=", "<=", " in ", ">", "<", "="]
+
+Predicate = Callable[[Record], bool]
 
 
 def _parse(expr: str) -> tuple[str, str, str]:
@@ -19,7 +21,7 @@ def _parse(expr: str) -> tuple[str, str, str]:
     raise ValueError(f"Invalid filter expression: {expr}")
 
 
-def _coerce(value: str):
+def _coerce(value: str) -> bool | int | float | str:
     if value.lower() in ("true", "false"):
         return value.lower() == "true"
 
@@ -36,7 +38,7 @@ def _coerce(value: str):
     return value
 
 
-def _make_predicate(field: str, op: str, raw_value: str):
+def _make_predicate(field: str, op: str, raw_value: str) -> Predicate:
     match op:
         case "=":
             target = _coerce(raw_value)
@@ -48,9 +50,14 @@ def _make_predicate(field: str, op: str, raw_value: str):
 
         case ">=" | "<=" | ">" | "<":
             target = _coerce(raw_value)
-            ops = {">=": float.__ge__, "<=": float.__le__, ">": float.__gt__, "<": float.__lt__}
+            ops: dict[str, Callable[[float, float], bool]] = {
+                ">=": float.__ge__,
+                "<=": float.__le__,
+                ">": float.__gt__,
+                "<": float.__lt__,
+            }
             cmp = ops[op]
-            return lambda r: cmp(float(r.get(field, 0)), float(target))
+            return lambda r: cmp(float(r.get(field, 0)), float(target))  # type: ignore[arg-type]
 
         case "~=":
             pattern = re.compile(raw_value, re.IGNORECASE)
@@ -68,7 +75,7 @@ def make_filter_stage(expr: str) -> PipelineStage:
     field, op, value = _parse(expr)
     predicate = _make_predicate(field, op, value)
 
-    def stage(stream: Iterator[dict]) -> Iterator[dict]:
+    def stage(stream: Iterator[Record]) -> Iterator[Record]:
         return (record for record in stream if predicate(record))
 
     return stage

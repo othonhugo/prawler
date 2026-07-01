@@ -4,6 +4,8 @@ import praw
 import praw.models
 from tenacity import retry, stop_after_attempt, wait_exponential
 
+from prawler.config import Config
+
 
 class RedditPrawClient:
     def __init__(
@@ -14,18 +16,22 @@ class RedditPrawClient:
         username: str | None = None,
         password: str | None = None,
     ) -> None:
-        kwargs: dict = {
-            "client_id": client_id,
-            "client_secret": client_secret,
-            "user_agent": user_agent,
-        }
-
         if username and password:
-            kwargs["username"] = username
-            kwargs["password"] = password
-
-        self._reddit = praw.Reddit(**kwargs)
-        self._reddit.read_only = not (username and password)
+            self._reddit = praw.Reddit(
+                client_id=client_id,
+                client_secret=client_secret,
+                user_agent=user_agent,
+                username=username,
+                password=password,
+            )
+            self._reddit.read_only = False
+        else:
+            self._reddit = praw.Reddit(
+                client_id=client_id,
+                client_secret=client_secret,
+                user_agent=user_agent,
+            )
+            self._reddit.read_only = True
 
     def subreddit(self, name: str) -> praw.models.Subreddit:
         return self._reddit.subreddit(name)
@@ -50,7 +56,7 @@ class RedditPrawClient:
         raise ValueError("provide url or id")
 
     @classmethod
-    def from_config(cls, cfg) -> "RedditPrawClient":
+    def from_config(cls, cfg: Config) -> "RedditPrawClient":
         return cls(
             client_id=cfg.reddit_client_id,
             client_secret=cfg.reddit_client_secret,

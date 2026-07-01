@@ -5,20 +5,22 @@ import io
 import json
 from typing import Iterator
 
+from prawler.output.base import Record
+
 
 class JsonFormatter:
-    def format(self, items: Iterator[dict]) -> Iterator[str]:
+    def format(self, items: Iterator[Record]) -> Iterator[str]:
         yield json.dumps(list(items), ensure_ascii=False, indent=2) + "\n"
 
 
 class JsonLFormatter:
-    def format(self, items: Iterator[dict]) -> Iterator[str]:
+    def format(self, items: Iterator[Record]) -> Iterator[str]:
         for item in items:
             yield json.dumps(item, ensure_ascii=False) + "\n"
 
 
 class CsvFormatter:
-    def format(self, items: Iterator[dict]) -> Iterator[str]:
+    def format(self, items: Iterator[Record]) -> Iterator[str]:
         rows = list(items)
 
         if not rows:
@@ -33,7 +35,7 @@ class CsvFormatter:
 
 
 class MarkdownFormatter:
-    def format(self, items: Iterator[dict]) -> Iterator[str]:
+    def format(self, items: Iterator[Record]) -> Iterator[str]:
         rows = list(items)
 
         if not rows:
@@ -51,7 +53,7 @@ class MarkdownFormatter:
 
 
 class TableFormatter:
-    def format(self, items: Iterator[dict]) -> Iterator[str]:
+    def format(self, items: Iterator[Record]) -> Iterator[str]:
         try:
             from rich.console import Console
             from rich.table import Table
@@ -73,4 +75,5 @@ class TableFormatter:
 
         buf = io.StringIO()
         Console(file=buf, highlight=False).print(table)
+
         yield buf.getvalue()

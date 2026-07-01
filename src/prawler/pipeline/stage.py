@@ -1,9 +1,10 @@
 from __future__ import annotations
 
-from collections.abc import Iterator, Callable
+from collections.abc import Callable, Iterator
 from functools import reduce
 
-PipelineStage = Callable[[Iterator[dict]], Iterator[dict]]
+Record = dict[str, object]
+PipelineStage = Callable[[Iterator[Record]], Iterator[Record]]
 
 
 def build_pipeline(*stages: PipelineStage) -> PipelineStage:

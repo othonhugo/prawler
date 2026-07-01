@@ -69,22 +69,17 @@ class PostCrawler:
     def from_subreddit(self, cfg: SubredditCrawlConfig) -> Iterator[Post]:
         sub = self._client.subreddit(cfg.subreddit)
 
-        kwargs: dict = {"limit": cfg.limit}
-
-        if cfg.sort in (SubredditSort.TOP, SubredditSort.CONTROVERTIAL):
-            kwargs["time_filter"] = cfg.time_filter.value
-
         match cfg.sort:
             case SubredditSort.HOT:
-                submissions = sub.hot(**kwargs)
+                submissions = sub.hot(limit=cfg.limit)
             case SubredditSort.NEW:
-                submissions = sub.new(**kwargs)
+                submissions = sub.new(limit=cfg.limit)
             case SubredditSort.TOP:
-                submissions = sub.top(**kwargs)
+                submissions = sub.top(limit=cfg.limit, time_filter=cfg.time_filter.value)
             case SubredditSort.RISING:
-                submissions = sub.rising(**kwargs)
+                submissions = sub.rising(limit=cfg.limit)
             case SubredditSort.CONTROVERTIAL:
-                submissions = sub.hot(**kwargs)
+                submissions = sub.controversial(limit=cfg.limit, time_filter=cfg.time_filter.value)
 
         yield from self._map(submissions)
 

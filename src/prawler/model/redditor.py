@@ -23,7 +23,7 @@ class Redditor:
     has_verified_email: bool | None
     icon_img: str
 
-    def to_dict(self, fields: list[str] | None = None) -> dict:
+    def to_dict(self, fields: list[str] | None = None) -> dict[str, object]:
         data = asdict(self)
         data["created_utc"] = self.created_utc.isoformat()
 

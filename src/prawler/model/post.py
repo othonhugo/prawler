@@ -32,7 +32,7 @@ class Post:
     stickied: bool
     domain: str
 
-    def to_dict(self, fields: list[str] | None = None) -> dict:
+    def to_dict(self, fields: list[str] | None = None) -> dict[str, object]:
         data = asdict(self)
         data["created_utc"] = self.created_utc.isoformat()
 
