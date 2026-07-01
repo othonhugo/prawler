@@ -25,9 +25,18 @@ test:
 
 bump-patch:
 	uv version --bump patch
+	git add pyproject.toml uv.lock
+	git commit -m "chore: bump project version to $$(uv version --short)"
+	git tag v$$(uv version --short)
 
 bump-minor:
 	uv version --bump minor
+	git add pyproject.toml uv.lock
+	git commit -m "chore: bump project version to $$(uv version --short)"
+	git tag v$$(uv version --short)
 
 bump-major:
 	uv version --bump major
+	git add pyproject.toml uv.lock
+	git commit -m "chore: bump project version to $$(uv version --short)"
+	git tag v$$(uv version --short)
