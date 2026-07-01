@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import typer
 
-from prawler.cli.options import FieldsOption, FormatOption, LimitOption, OutputOption
+from prawler.cli.options import FieldsOption, FormatOption, LimitOption, OutputOption, SubredditArg, SubredditSortOption, TimeFilterOption
 from prawler.client import RedditPrawClient
 from prawler.config import get_config
 from prawler.crawler import PostCrawler, SubredditCrawlConfig, SubredditSort, TimeFilter
@@ -13,14 +13,16 @@ app = typer.Typer()
 
 @app.command()
 def posts(
-    subreddit: str = typer.Argument(help="Subreddit name (without r/)."),
-    sort: SubredditSort = typer.Option(SubredditSort.HOT, help="Sort order."),
-    time_filter: TimeFilter = typer.Option(TimeFilter.ALL, help="Time window (top/controversial only)."),
+    subreddit: SubredditArg,
+    sort: SubredditSortOption = SubredditSort.HOT,
+    time_filter: TimeFilterOption = TimeFilter.ALL,
     limit: LimitOption = 100,
     format: FormatOption = "jsonl",
     output: OutputOption = "-",
     fields: FieldsOption = None,
 ) -> None:
+    """Crawl posts from a subreddit."""
+
     cfg = get_config()
     client = RedditPrawClient.from_config(cfg)
     crawler = PostCrawler(client)

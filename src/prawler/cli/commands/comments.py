@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import typer
 
-from prawler.cli.options import FieldsOption, FormatOption, LimitOption, OutputOption
+from prawler.cli.options import FieldsOption, FormatOption, LimitOption, OutputOption, SortOption, SourceArg
 from prawler.client import RedditPrawClient
 from prawler.config import get_config
 from prawler.crawler import CommentCrawler, SubmissionCommentConfig, UserCommentConfig
@@ -13,13 +13,15 @@ app = typer.Typer()
 
 @app.command()
 def comments(
-    source: str = typer.Argument(help="Submission URL/ID or username (prefix with u/ for user)."),
-    sort: str = typer.Option("new", help="Sort order for user comments: new | hot | top | controversial."),
+    source: SourceArg,
+    sort: SortOption = "new",
     limit: LimitOption = 100,
     format: FormatOption = "jsonl",
     output: OutputOption = "-",
     fields: FieldsOption = None,
 ) -> None:
+    """Crawl comments from a submission (URL or ID) or a user (u/username)."""
+
     cfg = get_config()
     client = RedditPrawClient.from_config(cfg)
     crawler = CommentCrawler(client)
