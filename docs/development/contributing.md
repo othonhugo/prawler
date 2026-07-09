@@ -1,6 +1,6 @@
 # Contributing and Development Guide
 
-Thank you for your interest in contributing to Prawler! This guide covers the project setup and the common extension points.
+Thank you for your interest in contributing to praw-cli! This guide covers the project setup and the common extension points.
 
 ## Project Structure
 

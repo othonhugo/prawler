@@ -18,10 +18,10 @@ By default, output is printed to `stdout` (`-`). If a file path is provided, it 
 
   ```bash
   # Save search results to a clean CSV file
-  prawler search "API" --format csv --output results.csv
+  praw-cli search "API" --format csv --output results.csv
 
   # Print top posts to the terminal in a rich table containing only 3 columns
-  prawler posts python --sort top --limit 10 --fields title,score,author --format table
+  praw-cli posts python --sort top --limit 10 --fields title,score,author --format table
   ```
 
 ## Multiple outputs

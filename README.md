@@ -1,4 +1,4 @@
-# prawler
+# praw-cli
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-purple.svg)](https://github.com/astral-sh/ruff)
@@ -7,15 +7,15 @@ A composable Reddit crawler for the command line. Fetch posts and comments from 
 
 ```bash
 # stream the top 500 posts from r/MachineLearning as JSONL
-prawler posts r/MachineLearning --sort top --time year --limit 500 --format jsonl
+praw-cli posts r/MachineLearning --sort top --time year --limit 500 --format jsonl
 
 # search across r/programming, keep only high-signal posts, project to four fields
-prawler search "New web framework" --sub r/programming \
+praw-cli search "New web framework" --sub r/programming \
   --filter "score>=100" --filter "num_comments>=10" \
   --fields id,title,score,url --format csv --output results.csv
 
 # full comment tree of a submission, depth-first, minimum score 5
-prawler comments https://reddit.com/r/Python/comments/xyz/ \
+praw-cli comments https://reddit.com/r/Python/comments/xyz/ \
   --depth 10 --min-score 5 --format jsonl
 ```
 
@@ -23,8 +23,8 @@ prawler comments https://reddit.com/r/Python/comments/xyz/ \
 
 ### Smart Memory & Reliability
 
-- **Constant Memory Footprint (Lazy Pipelines)**: Typical scrapers buffer huge arrays in memory, causing out-of-memory crashes on large crawls. Prawler processes data lazily item-by-item (`Iterator[Record]`). Streaming 100,000 posts uses the same constant memory as streaming 10.
-- **Resumable Extractions (Checkpointing)**: Long-running scrapes often fail halfway due to network drops or API limits. Prawler checkpoints progress, letting you `--resume` interrupted sessions without refetching from scratch.
+- **Constant Memory Footprint (Lazy Pipelines)**: Typical scrapers buffer huge arrays in memory, causing out-of-memory crashes on large crawls. praw-cli processes data lazily item-by-item (`Iterator[Record]`). Streaming 100,000 posts uses the same constant memory as streaming 10.
+- **Resumable Extractions (Checkpointing)**: Long-running scrapes often fail halfway due to network drops or API limits. praw-cli checkpoints progress, letting you `--resume` interrupted sessions without refetching from scratch.
 
 ### Zero-Code Data Preparation
 
@@ -46,11 +46,23 @@ prawler comments https://reddit.com/r/Python/comments/xyz/ \
 
 ## Installation
 
-Requires Python 3.11 or later and a [Reddit API application](https://www.reddit.com/prefs/apps) (free, read-only access is sufficient for most use cases). Prawler is built using `uv`.
+Requires Python 3.12 or later and a [Reddit API application](https://www.reddit.com/prefs/apps) (free, read-only access is sufficient for most use cases).
+
+### Via PyPI (Recommended)
+
+Install the package directly using `pip` or `pipx`:
 
 ```bash
-git clone https://github.com/othonhugo/prawler
-cd prawler
+pip install praw-cli
+```
+
+### From Source (Using `uv`)
+
+If you want to run it locally or contribute to development:
+
+```bash
+git clone https://github.com/othonhugo/praw-cli
+cd praw-cli
 uv sync
 source .venv/bin/activate
 ```

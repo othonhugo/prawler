@@ -1,6 +1,6 @@
 # Architectural Decision Records (ADRs)
 
-This document tracks important architectural decisions made during the development of Prawler.
+This document tracks important architectural decisions made during the development of praw-cli.
 
 ## ADR-001 — Use Typer over Click or argparse
 

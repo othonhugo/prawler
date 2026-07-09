@@ -1,6 +1,6 @@
 # Data Processing (Pipelines)
 
-Prawler features a **Pipeline** engine that allows you to filter and project data _before_ sending it to the output. This avoids unnecessary API traffic and guarantees sanitized datasets out of the box.
+praw-cli features a **Pipeline** engine that allows you to filter and project data _before_ sending it to the output. This avoids unnecessary API traffic and guarantees sanitized datasets out of the box.
 
 ## Filtering (`--filter` / `-F`)
 
@@ -22,28 +22,28 @@ You can use multiple `--filter` flags to apply conditions in sequence. Filters s
 
 ```bash
 # 1. Equality and Inequality (ignore bot accounts)
-prawler posts python --filter "author!=AutoModerator"
+praw-cli posts python --filter "author!=AutoModerator"
 
 # 2. Numerical and Date Comparisons
-prawler posts python --filter "score>100" --filter "created_utc>=2024-01-01"
+praw-cli posts python --filter "score>100" --filter "created_utc>=2024-01-01"
 
 # 3. Regular Expression (titles containing the word "bot")
-prawler posts python --filter "title~=\bbot\b"
+praw-cli posts python --filter "title~=\bbot\b"
 
 # 4. Exact List Matching
-prawler comments xyz123 --filter "author in spez,AutoModerator,reddit"
+praw-cli comments xyz123 --filter "author in spez,AutoModerator,reddit"
 
 # 5. Contains Any Keyword (OR logic)
-prawler posts programming --filter "title has python,golang,rust"
+praw-cli posts programming --filter "title has python,golang,rust"
 
 # 6. Contains All Keywords (AND logic)
-prawler posts programming --filter "title has_all tutorial,beginner"
+praw-cli posts programming --filter "title has_all tutorial,beginner"
 
 # 7. Starts/Ends with (direct links to JPG images)
-prawler posts pics --filter "url ends_with .jpg"
+praw-cli posts pics --filter "url ends_with .jpg"
 
 # 8. Character Length (NLP / Text Mining)
-prawler posts datascience --filter "selftext len>= 500"
+praw-cli posts datascience --filter "selftext len>= 500"
 ```
 
 ## Field Projection (`--fields`)
@@ -52,7 +52,7 @@ Reduce output size by extracting only the desired fields from the schema.
 
 - **Example:**
   ```bash
-  prawler posts programming --fields id,title,score,url,author
+  praw-cli posts programming --fields id,title,score,url,author
   ```
 
 Available fields vary depending on the target entity (Post vs Comment), but common fields include:

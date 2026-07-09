@@ -1,6 +1,6 @@
 # Scientific Use & Reproducibility
 
-Prawler is designed for reproducible data collection. The following features address common requirements in statistical and computational research.
+praw-cli is designed for reproducible data collection. The following features address common requirements in statistical and computational research.
 
 ## Crawl Manifests
 
@@ -29,7 +29,7 @@ The `config_fingerprint` is a SHA-256 hash of the resolved config (credentials r
 
 ## Reproducible Sampling
 
-For large subreddits where a full crawl is impractical, prawler supports sampling strategies controlled by a fixed seed:
+For large subreddits where a full crawl is impractical, praw-cli supports sampling strategies controlled by a fixed seed:
 
 ```toml
 [sampling]
@@ -71,8 +71,8 @@ every_n_records  = 1000
 
 ```bash
 # start a long crawl
-prawler posts r/science --limit 50000 --format jsonl --output science.jsonl
+praw-cli posts r/science --limit 50000 --format jsonl --output science.jsonl
 
 # if interrupted, resume from the last checkpoint
-prawler posts r/science --limit 50000 --format jsonl --output science.jsonl --resume
+praw-cli posts r/science --limit 50000 --format jsonl --output science.jsonl --resume
 ```

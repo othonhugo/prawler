@@ -1,6 +1,6 @@
 # System Architecture
 
-**Prawler** is built for composability: fetch posts and comments from any source, shape data through a lazy pipeline, and emit it in any format to any destination.
+**praw-cli** is built for composability: fetch posts and comments from any source, shape data through a lazy pipeline, and emit it in any format to any destination.
 
 ## Design Principles
 
@@ -38,7 +38,7 @@ graph TD
 
     Config["Config\ndefaults → env → toml → flags"]
 
-    User -->|"prawler posts r/example --format jsonl"| Typer
+    User -->|"praw-cli posts r/example --format jsonl"| Typer
     Typer --> PostsCmd
     Typer --> CommentsCmd
     Typer --> SearchCmd
@@ -84,7 +84,7 @@ Two orthogonal abstractions: **formatters** (serialization) and **sinks** (desti
 
 ## Data Flow
 
-End-to-end flow for `prawler posts r/<subreddt> --sort top --filter "score>=500" --fields id,title,score --format jsonl --output dump.jsonl`.
+End-to-end flow for `praw-cli posts r/<subreddt> --sort top --filter "score>=500" --fields id,title,score --format jsonl --output dump.jsonl`.
 
 ```mermaid
 sequenceDiagram
