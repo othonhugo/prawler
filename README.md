@@ -61,7 +61,7 @@ Full documentation is available in the `docs/` directory.
 
 - **[Getting Started](docs/getting-started.md)**: Installation and Authentication
 - **Usage Guide**:
-  - [Commands](docs/usage/commands.md) (`posts`, `comments`, `search`, `user`)
+  - [Commands](docs/usage/commands.md)
   - [Pipelines & Filters](docs/usage/pipelines-filters.md)
   - [Formatters & Outputs](docs/usage/outputs.md)
   - [Scientific Use & Reproducibility](docs/usage/reproducibility.md)
