@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 from enum import StrEnum
+from pathlib import Path
 from typing import Annotated
 
 import typer
 
 from prawler.crawler import SearchSort, SubredditSort, TimeFilter
+from prawler.reader import FileFormat
 
 # Arguments
 
@@ -27,6 +29,11 @@ UsernameArg = Annotated[
 SourceArg = Annotated[
     str,
     typer.Argument(help="Submission URL/ID or username (prefix with u/ for user)."),
+]
+
+FilePathArg = Annotated[
+    str,
+    typer.Argument(help="Path to the input file, or '-' to read from stdin."),
 ]
 
 # Shared options
@@ -93,4 +100,13 @@ class UserMode(StrEnum):
 UserModeOption = Annotated[
     UserMode,
     typer.Option("--mode", help="What to fetch: posts | comments | profile."),
+]
+
+FileFormatOption = Annotated[
+    FileFormat | None,
+    typer.Option(
+        "--input-format",
+        "-I",
+        help="Input file format: jsonl | json | csv. Auto-detected from extension when omitted.",
+    ),
 ]
