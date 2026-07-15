@@ -17,6 +17,12 @@ praw-cli search "New web framework" --sub r/programming \
 # full comment tree of a submission, depth-first, minimum score 5
 praw-cli comments https://reddit.com/r/Python/comments/xyz/ \
   --depth 10 --min-score 5 --format jsonl
+
+# fetch a user's recent posts as a terminal table
+praw-cli user spez --mode posts --limit 20 --format table
+
+# re-process a saved dataset offline — no API, no credentials needed
+praw-cli input posts.jsonl --filter "score>=500" --format csv --output filtered.csv
 ```
 
 ## Key Features & How They Solve Your Problems
@@ -25,6 +31,7 @@ praw-cli comments https://reddit.com/r/Python/comments/xyz/ \
 
 - **Constant Memory Footprint (Lazy Pipelines)**: Typical scrapers buffer huge arrays in memory, causing out-of-memory crashes on large crawls. praw-cli processes data lazily item-by-item (`Iterator[Record]`). Streaming 100,000 posts uses the same constant memory as streaming 10.
 - **Resumable Extractions (Checkpointing)**: Long-running scrapes often fail halfway due to network drops or API limits. praw-cli checkpoints progress, letting you `--resume` interrupted sessions without refetching from scratch.
+- **Offline Re-processing (`input`)**: Apply new filters, change output formats, or extract field subsets from any previously saved `.jsonl`, `.json`, or `.csv` file — without touching the API or needing credentials. Pipe from stdin too.
 
 ### Zero-Code Data Preparation
 

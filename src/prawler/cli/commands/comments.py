@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from prawler.output import OutputFormat
 from prawler.cli.options import FieldsOption, FilterOption, FormatOption, LimitOption, OutputOption, SortOption, SourceArg
 from prawler.client import RedditPrawClient
 from prawler.config import get_config
@@ -12,7 +13,7 @@ def comments(
     source: SourceArg,
     sort: SortOption = "new",
     limit: LimitOption = 100,
-    format: FormatOption = "jsonl",
+    format: FormatOption = OutputFormat.JSONL,
     output: OutputOption = "-",
     fields: FieldsOption = None,
     filter: FilterOption = None,

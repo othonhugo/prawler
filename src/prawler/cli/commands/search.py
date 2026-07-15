@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from prawler.output import OutputFormat
 from prawler.cli.options import FieldsOption, FilterOption, FormatOption, LimitOption, OutputOption, QueryArg, SearchSortOption, SubredditOption, TimeFilterOption
 from prawler.client import RedditPrawClient
 from prawler.config import get_config
@@ -14,7 +15,7 @@ def search(
     sort: SearchSortOption = SearchSort.RELEVANCE,
     time_filter: TimeFilterOption = TimeFilter.ALL,
     limit: LimitOption = 100,
-    format: FormatOption = "jsonl",
+    format: FormatOption = OutputFormat.JSONL,
     output: OutputOption = "-",
     fields: FieldsOption = None,
     filter: FilterOption = None,
