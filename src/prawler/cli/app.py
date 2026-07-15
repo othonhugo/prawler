@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import typer
 
-from prawler.cli.commands import comments, posts, search, user
+from prawler.cli.commands import comments, input, posts, search, user
 
 app = typer.Typer(
     name="prawler",
@@ -14,3 +14,4 @@ app.command()(posts)
 app.command()(comments)
 app.command()(search)
 app.command()(user)
+app.command()(input)
