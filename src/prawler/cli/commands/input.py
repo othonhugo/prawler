@@ -6,7 +6,7 @@ import sys
 import typer
 
 from prawler.cli.options import FieldsOption, FileFormatOption, FilePathArg, FilterOption, FormatOption, LimitOption, OutputOption
-from prawler.output import get_formatter, make_sink
+from prawler.output import OutputFormat, get_formatter, make_sink
 from prawler.pipeline import build_pipeline, make_field_select_stage, make_filter_stage
 from prawler.reader import FileReader
 
@@ -14,7 +14,7 @@ from prawler.reader import FileReader
 def input(
     file: FilePathArg,
     input_format: FileFormatOption = None,
-    format: FormatOption = "jsonl",
+    format: FormatOption = OutputFormat.JSONL,
     output: OutputOption = "-",
     fields: FieldsOption = None,
     filter: FilterOption = None,

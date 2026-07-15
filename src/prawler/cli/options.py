@@ -7,7 +7,7 @@ from typing import Annotated
 import typer
 
 from prawler.crawler import SearchSort, SubredditSort, TimeFilter
-from prawler.reader import FileFormat
+from prawler.output import FileFormat, OutputFormat
 
 # Arguments
 
@@ -39,7 +39,7 @@ FilePathArg = Annotated[
 # Shared options
 
 FormatOption = Annotated[
-    str,
+    OutputFormat,
     typer.Option("--format", "-f", help="Output format: json | jsonl | csv | table | markdown."),
 ]
 

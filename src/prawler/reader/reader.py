@@ -4,10 +4,10 @@ import csv
 import json
 import sys
 from collections.abc import Iterator
-from enum import StrEnum
 from pathlib import Path
 from typing import IO
 
+from prawler.output import FileFormat
 from prawler.pipeline.stage import Record
 
 _STDIN_SENTINEL = "-"
@@ -18,12 +18,6 @@ _EXTENSION_MAP: dict[str, str] = {
     ".json": "json",
     ".csv": "csv",
 }
-
-
-class FileFormat(StrEnum):
-    JSONL = "jsonl"
-    JSON = "json"
-    CSV = "csv"
 
 
 class FileReader:
